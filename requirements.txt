@@ -1,11 +1,5 @@
-altair
-numpy
-pandas
-pydeck
 streamlit
-seaborn
-matplotlib
-plotly
-plotly.express
-TfidfVectorizer
+pandas
 scikit-learn
+matplotlib
+seaborn
