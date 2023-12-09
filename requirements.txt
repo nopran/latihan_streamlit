@@ -8,3 +8,4 @@ matplotlib
 plotly
 plotly.express
 TfidfVectorizer
+scikit-learn
