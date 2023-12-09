@@ -3,6 +3,7 @@ import pandas as pd
 import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
+from wordcloud import WordCloud
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Fungsi untuk memuat model dan vectorizer
@@ -18,45 +19,36 @@ def predict_sentiment(model, vectorizer, review):
     prediction = model.predict(review_vectorized)
     return prediction[0]
 
-# Fungsi untuk memuat data (sesuaikan dengan data Anda)
+# Fungsi untuk memuat data
 def load_data():
     data = pd.read_csv('dataset-lazada-reviews.csv')
     return data
 
-# Fungsi untuk menampilkan grafik distribusi rating
-def plot_rating_distribution(data):
-    plt.figure(figsize=(10, 6))
-    sns.countplot(x='rating', data=data, palette='viridis')
-    plt.title('Distribusi Rating Produk', fontsize=15)
-    plt.xlabel('Rating', fontsize=12)
-    plt.ylabel('Jumlah Review', fontsize=12)
-    plt.xticks(fontsize=10)
-    plt.yticks(fontsize=10)
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+# Fungsi untuk menampilkan word cloud dari review
+def plot_word_cloud(data):
+    text = " ".join(str(review) for review in data.reviewContent)
+    wordcloud = WordCloud(background_color='white').generate(text)
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
     st.pyplot(plt.gcf())
 
-# Fungsi untuk analisis deskriptif dan grafik
 def show_descriptive_analysis(data):
     st.write("### Analisis Deskriptif Data")
     st.write(data.describe())
-
-    # Menampilkan grafik distribusi rating
-    plot_rating_distribution(data)
-
-    # Tambahkan lebih banyak grafik sesuai kebutuhan
+    plot_word_cloud(data)
 
 # Fungsi utama aplikasi
 def main():
     st.title("Aplikasi Klasifikasi Sentimen Review Produk")
 
-    # Menu navigasi dengan ikon
     menu_options = {
-        "Beranda": "house",
-        "Dataset": "book",
-        "Model": "gear",
-        "Klasifikasi Sentimen": "chat-left-text",
-        "Analisis Deskriptif": "bar-chart-line",
-        "Tentang": "info-circle"
+        "Beranda": ":house:",
+        "Dataset": ":book:",
+        "Model": ":gear:",
+        "Klasifikasi Sentimen": ":memo:",
+        "Analisis Deskriptif": ":bar_chart:",
+        "Tentang": ":info:"
     }
 
     st.sidebar.title("Navigasi")
@@ -64,15 +56,16 @@ def main():
 
     if choice == "Beranda":
         st.subheader("Beranda")
-        st.write("Selamat datang di aplikasi klasifikasi sentimen!")
+        st.write("Selamat datang di Portofolio Analisis Review Sentimen!")
     elif choice == "Dataset":
         st.subheader("Dataset")
-        st.write("Deskripsi dan informasi mengenai dataset yang digunakan.")
+        st.write("Dataset yang digunakan adalah dataset Lazada Reviews.")
         data = load_data()
         st.write(data.head())
     elif choice == "Model":
         st.subheader("Model")
         st.write("Informasi mengenai model yang digunakan untuk klasifikasi sentimen.")
+        # Anda dapat menambahkan lebih banyak informasi model di sini
     elif choice == "Klasifikasi Sentimen":
         st.subheader("Klasifikasi Sentimen")
         model, vectorizer = load_model_and_vectorizer()
