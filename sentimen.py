@@ -20,7 +20,7 @@ def predict_sentiment(model, vectorizer, review):
 
 # Fungsi untuk memuat data (sesuaikan dengan data Anda)
 def load_data():
-    data = pd.read_csv('20191002-reviews.csv')
+    data = pd.read_csv('dataset-lazada-reviews.csv')
     return data
 
 # Fungsi untuk menampilkan grafik distribusi rating
